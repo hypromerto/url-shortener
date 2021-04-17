@@ -2,7 +2,7 @@ package com.erolcloud.app.outpost;
 
 import java.util.HashMap;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -14,9 +14,9 @@ public class Envoy{
 
     public static HashMap<String, Object> post(String url, HashMap<String, Object> json){
         try{            
-            ObjectMapper objectMapper = new ObjectMapper();
+            Gson gson = new Gson();
 
-            String jsonString = objectMapper.writeValueAsString(json);
+            String jsonString = gson.toJson(json);
             
             OkHttpClient cli = new OkHttpClient();
 
@@ -24,13 +24,13 @@ public class Envoy{
 
             Request req = new Request.Builder().url(url).post(body).build();
 
-            try (Response resp = client.newCall(request).execute()){
+            try (Response resp = cli.newCall(req).execute()){
                 String respString = resp.body().string();
                 
                 if(respString.isEmpty())
                     return null;
 
-                return objectMapper.readValue(respString, HashMap.class);
+                    return gson.fromJson(respString, HashMap.class);
             } 
             
         } catch (Exception e){

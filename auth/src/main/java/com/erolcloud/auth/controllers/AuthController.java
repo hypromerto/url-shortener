@@ -1,5 +1,7 @@
 package com.erolcloud.auth.controllers;
 
+import com.erolcloud.auth.models.TestObject;
+
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -17,8 +19,8 @@ public class AuthController {
         String message = (String) body.get("message");
         String id = (String) body.get("id");
 
-        System.out.println(message + " " + id);
+        System.out.println("At auth service: " + message + " " + id);
 
-        return new ResponseEntity<>(new TestObject)
+        return new ResponseEntity<>(new TestObject("burak", "amk atası idsi"), HttpStatus.OK);
     }
 }
