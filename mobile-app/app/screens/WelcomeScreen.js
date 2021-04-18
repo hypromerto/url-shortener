@@ -20,32 +20,39 @@ function WelcomeScreen(props) {
           style={styles.logo}
           source={require("../assets/app-logo.png")}
         />
-        <Text>Erol Cloud</Text>
+        <Text style={styles.appTitle}>Erol Cloud</Text>
       </View>
       <View style={styles.loginContainer}>
-        <Button style={styles.loginButton} title="Login"></Button>
+        <Text style={styles.loginButton}>Login</Text>
       </View>
       <View style={styles.registerContainer}>
-        <Button style={styles.registerButton} title="Register"></Button>
+        <Text style={styles.registerButton}>Register</Text>
       </View>
     </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  appTitle: {
+    fontSize: 35,
+    fontWeight: "bold",
+  },
   background: {
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
   },
   loginButton: {
-    flex: 1,
-    flexDirection: "column"
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "white",
   },
   loginContainer: {
     width: "100%",
     height: 70,
-    backgroundColor: "yellow",
+    backgroundColor: "#6794b5",
+    justifyContent: "center",
   },
   logo: {
     width: 100,
@@ -57,11 +64,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   registerButton: {
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "white",
   },
   registerContainer: {
     width: "100%",
     height: 70,
-    backgroundColor: "red",
+    backgroundColor: "#4b84ac",
+    justifyContent: "center"
   },
 });
 
