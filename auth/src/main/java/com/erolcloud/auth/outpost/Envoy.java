@@ -1,5 +1,5 @@
 package com.erolcloud.auth.outpost;
 
-public class MongoOutpost {
+public class Envoy {
     
 }
