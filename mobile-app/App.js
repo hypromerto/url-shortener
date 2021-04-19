@@ -7,36 +7,6 @@ import Navigation from "./app/navigation/ExternalNavigation"
 
 const AUTH_URL = "http://34.78.211.85/shorten";
 
-const QUERY = {
-  "originalURL": "www.bombabomba.com",
-  "key": "lock",
-  "creator": "yucin the great",
-  "expirationDate": "dün"
-};
-
-const requestOptions = {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify( QUERY)
-};
-
-// sendRequest = () => {
-//   console.log("Pressed");
-//   fetch(AUTH_URL, {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify( QUERY)
-//   })
-//  .then(() => {
-//     this.setState({
-//        pressed: !(this.state.pressed),
-//        data: "Added",
-//     })
-//  })
-//  .catch((error) => {
-//     console.error(error);
-//  });
-// }
 export default class App extends Component{
 
   render() {

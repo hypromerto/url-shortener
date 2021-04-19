@@ -11,16 +11,17 @@
     "@react-native-clipboard/clipboard": "^1.7.0",
     "@react-native-community/clipboard": "^1.5.1",
     "expo": "~41.0.0",
+    "expo-clipboard": "~1.0.2",
     "expo-status-bar": "~1.0.4",
     "jetifier": "^1.6.6",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
+    "react-native-elements": "^3.3.2",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-web": "^0.15.7",
     "react-navigation": "^4.4.4",
-    "react-navigation-stack": "^2.10.4",
-    "expo-clipboard": "~1.0.2"
+    "react-navigation-stack": "^2.10.4"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

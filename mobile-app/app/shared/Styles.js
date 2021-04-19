@@ -12,6 +12,8 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: "center",
     justifyContent: "center",
+    padding: 20,
+    margin: 10,
   },
   externalBackground: {
     flex: 1,
@@ -59,7 +61,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 70,
     backgroundColor: "#4b84ac",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   text: {
     color: "white",
