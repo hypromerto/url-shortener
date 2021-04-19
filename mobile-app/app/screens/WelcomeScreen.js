@@ -6,9 +6,17 @@ import {
   Image,
   Text,
   Button,
+  TouchableOpacity,
 } from "react-native";
 
-function WelcomeScreen(props) {
+export default function WelcomeScreen({ navigation }) {
+  const toLogin = () => {
+    navigation.navigate('Login');
+  }
+
+  const toRegister = () => {
+    navigation.navigate('Register');
+  }
   return (
     <ImageBackground
       style={styles.background}
@@ -22,12 +30,12 @@ function WelcomeScreen(props) {
         />
         <Text style={styles.appTitle}>Erol Cloud</Text>
       </View>
-      <View style={styles.loginContainer}>
+      <TouchableOpacity onPress={toLogin} style={styles.loginContainer}>
         <Text style={styles.loginButton}>Login</Text>
-      </View>
-      <View style={styles.registerContainer}>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={toRegister} style={styles.registerContainer}>
         <Text style={styles.registerButton}>Register</Text>
-      </View>
+      </TouchableOpacity>
     </ImageBackground>
   );
 }
@@ -76,5 +84,3 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
 });
-
-export default WelcomeScreen;
