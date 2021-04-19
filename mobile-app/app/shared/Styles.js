@@ -5,7 +5,15 @@ const styles = StyleSheet.create({
     fontSize: 35,
     fontWeight: "bold",
   },
-  background: {
+  button: {
+    width: "80%",
+    backgroundColor: "#16589b",
+    borderRadius: 25,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  externalBackground: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -26,16 +34,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 20,
   },
-  button: {
-    width: "80%",
-    backgroundColor: "#16589b",
-    borderRadius: 25,
-    height: 50,
+  internalBackground: {
+    flex: 1,
+    paddingTop: 20,
+    justifyContent: "flex-start",
     alignItems: "center",
-    justifyContent: "center",
   },
-  text: {
-    color: "white",
+  loginContainer: {
+    width: "100%",
+    height: 70,
+    backgroundColor: "#6794b5",
+    justifyContent: "center",
   },
   logo: {
     width: 100,
@@ -46,6 +55,26 @@ const styles = StyleSheet.create({
     top: 70,
     alignItems: "center",
   },
+  registerContainer: {
+    width: "100%",
+    height: 70,
+    backgroundColor: "#4b84ac",
+    justifyContent: "center"
+  },
+  text: {
+    color: "white",
+  },
+  welcomeButton: {
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "white",
+  },
+  welcomeBackground: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
 });
 
-export {styles};
+export { styles };
