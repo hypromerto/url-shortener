@@ -10,6 +10,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import { styles } from '../shared/Styles'
+
 export default function RegisterScreen(props) {
   return (
     <ImageBackground
@@ -45,57 +47,9 @@ export default function RegisterScreen(props) {
           placeholderTextColor="#003f5c"
         />
       </View>
-      <TouchableOpacity style={styles.loginButton}>
-        <Text style={styles.loginText}>LOGIN</Text>
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.text}>Register</Text>
       </TouchableOpacity>
     </ImageBackground>
   );
 }
-
-const styles = StyleSheet.create({
-  appTitle: {
-    fontSize: 35,
-    fontWeight: "bold",
-  },
-  background: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  inputText: {
-    height: 50,
-    color: "white",
-  },
-  inputView: {
-    width: "80%",
-    backgroundColor: "#fff",
-    borderRadius: 25,
-    borderStyle: "solid",
-    borderWidth: 2,
-    borderColor: "#000",
-    height: 50,
-    marginBottom: 20,
-    justifyContent: "center",
-    padding: 20,
-  },
-  loginButton: {
-    width: "80%",
-    backgroundColor: "#fb5b5a",
-    borderRadius: 25,
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  loginText: {
-    color: "white",
-  },
-  logo: {
-    width: 100,
-    height: 100,
-  },
-  logoContainer: {
-    position: "absolute",
-    top: 70,
-    alignItems: "center",
-  },
-});

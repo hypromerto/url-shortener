@@ -1,10 +1,46 @@
-import React, { Component } from "react";
-import { Text, View } from "react-native";
+import React from "react";
+import {
+  Text,
+  View,
+  ImageBackground,
+  StyleSheet,
+  TextInput,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import { styles } from '../shared/Styles'
 
 export default function LoginScreen(props) {
   return (
-    <View>
-      <Text> textInComponent </Text>
-    </View>
+    <ImageBackground
+      style={styles.background}
+      source={require("../assets/welcomebg.jpg")}
+    >
+      <View style={styles.logoContainer}>
+        <Image
+          resizeMode="contain"
+          style={styles.logo}
+          source={require("../assets/app-logo.png")}
+        />
+        <Text style={styles.appTitle}>Erol Cloud</Text>
+      </View>
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.inputText}
+          placeholder="Email"
+          placeholderTextColor="#003f5c"
+        />
+      </View>
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.inputText}
+          placeholder="Password"
+          placeholderTextColor="#003f5c"
+        />
+      </View>
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.text}>Login</Text>
+      </TouchableOpacity>
+    </ImageBackground>
   );
 }
