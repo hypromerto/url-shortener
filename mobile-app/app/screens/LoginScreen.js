@@ -8,12 +8,16 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { styles } from '../shared/Styles'
+import { styles } from "../shared/Styles";
 
-export default function LoginScreen(props) {
+export default function LoginScreen({ navigation }) {
+  const toDashboard = () => {
+    navigation.navigate("Dashboard");
+  };
+  
   return (
     <ImageBackground
-      style={styles.background}
+      style={styles.externalBackground}
       source={require("../assets/welcomebg.jpg")}
     >
       <View style={styles.logoContainer}>
@@ -38,7 +42,7 @@ export default function LoginScreen(props) {
           placeholderTextColor="#003f5c"
         />
       </View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity onPress={toDashboard} style={styles.button}>
         <Text style={styles.text}>Login</Text>
       </TouchableOpacity>
     </ImageBackground>
