@@ -15,7 +15,7 @@ import { styles } from '../shared/Styles'
 export default function RegisterScreen(props) {
   return (
     <ImageBackground
-      style={styles.background}
+      style={styles.externalBackground}
       source={require("../assets/welcomebg.jpg")}
     >
       <View style={styles.logoContainer}>
