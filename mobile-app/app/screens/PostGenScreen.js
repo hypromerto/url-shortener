@@ -1,12 +1,13 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { styles } from '../shared/Styles'
 
 export default function PostGenScreen({ navigation }) {
     return (
-        <View>
+        <View style={styles.internalBackground}>
             <Text>Generated Successfully</Text>
         </View>
     )
 }
 
-const styles = StyleSheet.create({})
+const inStyles = StyleSheet.create({})

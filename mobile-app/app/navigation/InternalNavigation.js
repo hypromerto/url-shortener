@@ -1,17 +1,17 @@
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
-import LoginScreen from "../screens/LoginScreen";
-import WelcomeScreen from "../screens/WelcomeScreen";
-import RegisterScreen from "../screens/RegisterScreen";
-import Dashboard from "../screens/DashboardScreen";
-import { Platform } from "react-native";
+import DashboardScreen from "../screens/DashboardScreen";
+import PostGenScreen from "../screens/PostGenScreen";
 
 const routes = {
   Dashboard: {
-    screen: Dashboard,
+    screen: DashboardScreen,
     navigationOptions: {
       headerLeft: () => {null}
     }
+  },
+  PostGen: {
+    screen: PostGenScreen
   }
 };
 
