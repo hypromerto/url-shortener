@@ -3,6 +3,9 @@ import { createAppContainer } from "react-navigation";
 import LoginScreen from "../screens/LoginScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import RegisterScreen from "../screens/RegisterScreen";
+import Dashboard from "../screens/DashboardScreen";
+import { Platform } from "react-native";
+import InternalNavigation from "./InternalNavigation";
 
 const routes = {
   Welcome: {
@@ -14,6 +17,9 @@ const routes = {
   Register: {
     screen: RegisterScreen,
   },
+  Dashboard: {
+    screen: InternalNavigation,
+  }
 };
 
 const options = {
