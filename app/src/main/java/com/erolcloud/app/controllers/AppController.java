@@ -63,21 +63,30 @@ public class AppController{
         }
         else{
             keyToUse = KeygenGate.getKey(); //Need to decide if we allow duplicate keys, very low prob.
+
+            while (collection.find(Filters.eq("key", keyToUse).first()) != null)
+                keyToUse = KeygenGate.getKey();
         }
         
         String creator = validationResult.getUsername();
 
         Document newURL = new Document()
-        .append("url", originalURL)
-        .append("key", keyToUse)
-        .append("creator", creator)
-        .append("expireDate", expirationDate)
-        .append("active", 1);
-
+            .append("url", originalURL)
+            .append("key", keyToUse)
+            .append("creator", creator)
+            .append("expireDate", expirationDate)
+            .append("active", 1);
         collection.insertOne(newURL);
 
-        return new ResponseEntity<>(new URLResult(keyToUse, originalURL, expirationDate), HttpStatus.CREATED);
+        /*
+
+        Add a record to analytics (also maybe account type for analytics)
+
+        Add to cache?
         
+        */
+
+        return new ResponseEntity<>(new URLResult(keyToUse, originalURL, expirationDate), HttpStatus.CREATED);
     }
 
     public ValidationResult validateUser(String token){ //will also use api_key
@@ -90,8 +99,4 @@ public class AppController{
         return result;
     }
 
-
 }
-
-
-
