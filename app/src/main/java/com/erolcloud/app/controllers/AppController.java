@@ -6,8 +6,15 @@ import java.util.Map;
 import javax.swing.text.Style;
 
 import com.erolcloud.app.outpost.MongoGate;
+import com.erolcloud.app.outpost.AuthGate;
+import com.erolcloud.app.outpost.KeygenGate;
+
+import com.erolcloud.app.models.URLResult;
+import com.erolcloud.app.models.ValidationResult;
+
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
@@ -22,34 +29,74 @@ public class AppController{
 
 
     @PostMapping("/shorten")
-    public ResponseEntity<String> shorten(@RequestBody Map<String, String> body) {
+    public ResponseEntity<URLResult> shorten(@RequestBody Map<String, String> body) {
         
         MongoDatabase db = MongoGate.getMongoDB();
 
+        String token = body.get("token");
 		String originalURL = body.get("originalURL");
-		String key = body.get("key");
-        String creator = body.get("creator");
+		String customURL = body.get("customURL");
         String expirationDate = body.get("expirationDate");
 
-        System.out.println(originalURL + key + creator + expirationDate);
+        ValidationResult validationResult = validateUser(token); //will also use apiKey
+
+        if (validationResult == null)
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        
+        if (validationResult.getQuota() <= 0)
+            return new ResponseEntity<>(HttpStatus.TOO_MANY_REQUESTS);
 
         MongoCollection<Document> collection = db.getCollection("url");
 
-        Document newURL = new Document()
-        .append("url", originalURL)
-        .append("key", key)
-        .append("creator", creator)
-        .append("expireDate", expirationDate)
-        .append("active", 1);
+        String keyToUse;
 
+        if (customURL != null){
+            //If the user wants to use a custom key
+
+            if (collection.find(Filters.eq("key", customURL)).first() != null)
+                //If the custom key already exists, reject
+                return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+
+            //Key is available
+
+            keyToUse = customURL;
+        }
+        else{
+            keyToUse = KeygenGate.getKey(); //Need to decide if we allow duplicate keys, very low prob.
+
+            while (collection.find(Filters.eq("key", keyToUse).first()) != null)
+                keyToUse = KeygenGate.getKey();
+        }
+        
+        String creator = validationResult.getUsername();
+
+        Document newURL = new Document()
+            .append("url", originalURL)
+            .append("key", keyToUse)
+            .append("creator", creator)
+            .append("expireDate", expirationDate)
+            .append("active", 1);
         collection.insertOne(newURL);
 
-        return new ResponseEntity<>("Created entry", HttpStatus.CREATED);
+        /*
+
+        Add a record to analytics (also maybe account type for analytics)
+
+        Add to cache?
         
+        */
+
+        return new ResponseEntity<>(new URLResult(keyToUse, originalURL, expirationDate), HttpStatus.CREATED);
     }
 
+    public ValidationResult validateUser(String token){ //will also use api_key
+
+        ValidationResult result = null;
+
+        if (token != null)
+            result = AuthGate.validate(token, "token");
+
+        return result;
+    }
 
 }
-
-
-
