@@ -63,6 +63,10 @@ export default function Dashboard({ navigation }) {
     setOriginalURL(text);
   };
 
+  const toAnalytics = () => {
+    navigation.navigate("Analytics");
+  }
+
   return (
     <View style={styles.internalBackground}>
       <View style={inStyles.URLContainer}>
@@ -98,6 +102,9 @@ export default function Dashboard({ navigation }) {
       </View>
       <TouchableOpacity onPress={toPostGen} style={styles.button}>
         <Text style={styles.text}>Shorten</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={toAnalytics} style={styles.button}>
+        <Text style={styles.text}>View Analytics</Text>
       </TouchableOpacity>
     </View>
   );
