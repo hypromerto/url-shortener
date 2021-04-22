@@ -9,9 +9,21 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { styles } from "../shared/Styles";
+import { useUserContext } from "../shared/UserContext";
 
 export default function LoginScreen({ navigation }) {
+  const {
+    setUsername,
+    setAccessToken
+  } = useUserContext();
+
   const toDashboard = () => {
+    /**
+     * Send Login Request.then(r => {
+     *  setUsername(r.username)
+     *  setAccessToken(r.access_token)
+     * }) 
+     * */
     navigation.navigate("Dashboard");
   };
   

@@ -12,7 +12,18 @@ import {
 
 import { styles } from '../shared/Styles'
 
-export default function RegisterScreen(props) {
+export default function RegisterScreen({ navigation }) {
+
+  const toDashboard = () => {
+    /**
+     * Send Login Request.then(r => {
+     *  setUsername(r.username)
+     *  setAccessToken(r.access_token)
+     * }) 
+     * */
+    navigation.navigate("Login");
+  };
+
   return (
     <ImageBackground
       style={styles.externalBackground}
@@ -47,7 +58,7 @@ export default function RegisterScreen(props) {
           placeholderTextColor="#003f5c"
         />
       </View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity onPress={toDashboard} style={styles.button}>
         <Text style={styles.text}>Register</Text>
       </TouchableOpacity>
     </ImageBackground>
