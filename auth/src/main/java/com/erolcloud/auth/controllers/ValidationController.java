@@ -35,7 +35,7 @@ public class ValidationController {
             username = ValidationHelper.validateApiKey(apiKey);
         else if (adminKey != null)
             if (ValidationHelper.validateAdmin(adminKey))
-                return new ResponseEntity<>(new ValidationResult("admin", 0), HttpStatus.OK);
+                return new ResponseEntity<>(new ValidationResult("admin", -1), HttpStatus.OK);
         
         if (username != null){
 
