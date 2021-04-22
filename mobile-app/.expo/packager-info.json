@@ -1,0 +1,10 @@
+{
+  "expoServerNgrokUrl": "https://4r-nmi.anonymous.mobile-app.exp.direct",
+  "packagerNgrokUrl": "https://packager.4r-nmi.anonymous.mobile-app.exp.direct",
+  "ngrokPid": 9280,
+  "expoServerPort": 19000,
+  "packagerPort": 19000,
+  "packagerPid": null,
+  "webpackServerPort": null,
+  "devToolsPort": 19002
+}
