@@ -3,8 +3,6 @@ package com.erolcloud.app.controllers;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.swing.text.Style;
-
 import com.erolcloud.app.outpost.MongoGate;
 import com.erolcloud.app.outpost.AuthGate;
 import com.erolcloud.app.outpost.KeygenGate;
@@ -34,11 +32,12 @@ public class AppController{
         MongoDatabase db = MongoGate.getMongoDB();
 
         String token = body.get("token");
+        String apiKey = body.get("apiKey");
 		String originalURL = body.get("originalURL");
 		String customURL = body.get("customURL");
         String expirationDate = body.get("expirationDate");
 
-        ValidationResult validationResult = validateUser(token); //will also use apiKey
+        ValidationResult validationResult = validateUser(token, apiKey); //will also use apiKey
 
         if (validationResult == null)
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -64,7 +63,7 @@ public class AppController{
         else{
             keyToUse = KeygenGate.getKey(); //Need to decide if we allow duplicate keys, very low prob.
 
-            while (collection.find(Filters.eq("key", keyToUse).first()) != null)
+            while (collection.find(Filters.eq("key", keyToUse)).first() != null)
                 keyToUse = KeygenGate.getKey();
         }
         
@@ -89,12 +88,14 @@ public class AppController{
         return new ResponseEntity<>(new URLResult(keyToUse, originalURL, expirationDate), HttpStatus.CREATED);
     }
 
-    public ValidationResult validateUser(String token){ //will also use api_key
+    public ValidationResult validateUser(String token, String apiKey){ //will also use api_key
 
         ValidationResult result = null;
 
         if (token != null)
-            result = AuthGate.validate(token, "token");
+            result = AuthGate.validate("token", token);
+        else if (apiKey != null)
+            result = AuthGate.validate("api_key", apiKey);
 
         return result;
     }

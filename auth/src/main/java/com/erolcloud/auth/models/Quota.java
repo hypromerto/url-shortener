@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @Data  
 @AllArgsConstructor  
 @NoArgsConstructor
-public class QuotaStatus {
-  	private final int usageCount;
-	private final Date lastUsage;
+public class Quota{
+  	private int used;
+	private Date last;
 
 	public Document getDocument() {
 		return new Document()
-			.append("usage_count", usageCount)
-			.append("last_usage", lastUsage);
+			.append("used", used)
+			.append("last", last);
 	}
 }

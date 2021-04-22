@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Data  
 @AllArgsConstructor  
 @NoArgsConstructor
-public class AdminAuth {
-    
+public class AuthResult {
+    public String accountType;
+    public String authItem;
 }

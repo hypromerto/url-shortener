@@ -5,18 +5,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data  
-@AllArgsConstructor  
-@NoArgsConstructor
-public class Register {
-    private final boolean success;
-    private final String error;
+public class RegisterResult {
+    private boolean success;
+    private String error;
 
-    public Register(String error){
+    public RegisterResult(String error){
         this.error = error;
         this.success = false;
     }
 
-    public Register(){
+    public RegisterResult(){
         this.error = "";
         this.success = true;
     }

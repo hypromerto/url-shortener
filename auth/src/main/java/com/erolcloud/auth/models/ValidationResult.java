@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data  
 @AllArgsConstructor  
 @NoArgsConstructor
-public class Validation {
-    private final String username;
-	private final int quota;
+public class ValidationResult {
+    private String username;
+	private int quota;
 }
