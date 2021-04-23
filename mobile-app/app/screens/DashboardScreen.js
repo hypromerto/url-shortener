@@ -35,14 +35,21 @@ export default function Dashboard({ navigation }) {
   const [customURL, setcustomURL] = useState("");
   const [isSelected, setSelection] = useState(false);
   const [originalURL, setOriginalURL] = useState("");
-  var res;
 
   const toPostGen = () => {
-    let QUERY = {
+
+    var QUERY = {
       "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtZXJ0In0.qmlXAtkOzSS52Zbkhd1NuA3hNrL1cMbLgac7_YT8OzU",
       "originalURL": originalURL,
       "expirationDate": "12-04-2022"
     };
+    if (isSelected) {
+      if(customURL.length === 8) {
+        QUERY.customURL = customURL;
+      }
+      
+    }
+
     fetch("http://34.78.211.85/shorten", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -52,7 +59,7 @@ export default function Dashboard({ navigation }) {
       .then(data => {
         console.log(data);
         console.log(data["key"]);
-        navigation.navigate("PostGen", {data: data["key"]});
+        navigation.navigate("PostGen", { data: data["key"] });
       })
       .catch((error) => {
         console.error(error);
