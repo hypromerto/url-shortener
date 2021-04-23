@@ -6,6 +6,7 @@ import java.net.URISyntaxException;
 import java.net.URI;
 
 import com.erolcloud.app.outpost.MongoGate;
+import com.erolcloud.app.outpost.AnalyticGate;
 import com.erolcloud.app.outpost.AuthGate;
 import com.erolcloud.app.outpost.KeygenGate;
 
@@ -79,12 +80,12 @@ public class AppController{
             .append("active", 1);
         collection.insertOne(newURL);
 
-        /*
-
-        Add a record to analytics (also maybe account type for analytics)
-
-        Add to cache?
         
+        //Add a record to analytics (also maybe account type for analytics)
+        AnalyticGate.addAnalytic(creator, originalURL);
+        
+        /*
+        Add to cache?
         */
 
         return new ResponseEntity<>(new URLResult(keyToUse, originalURL, expirationDate), HttpStatus.CREATED);
