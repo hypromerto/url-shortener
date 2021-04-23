@@ -21,9 +21,6 @@ const routes = {
   Dashboard: {
     screen: InternalNavigation,
   },
-  Analytics: {
-    screen: AnalyticsScreen
-  }
 };
 
 const options = {

@@ -10,8 +10,9 @@ import {
 import { Icon } from "react-native-elements";
 import Clipboard from "expo-clipboard";
 import { styles } from "../shared/Styles";
+import axios from "react-native-axios";
 
-const AUTH_URL = "http://34.78.211.85/shorten/";
+const AUTH_URL = "";
 
 // sendRequest = () => {
 //   console.log("Pressed");
@@ -39,7 +40,7 @@ export default function Dashboard({ navigation }) {
   const toPostGen = () => {
 
     var QUERY = {
-      "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtZXJ0In0.qmlXAtkOzSS52Zbkhd1NuA3hNrL1cMbLgac7_YT8OzU",
+      "token": "",
       "originalURL": originalURL,
       "expirationDate": "12-04-2022"
     };
@@ -73,7 +74,47 @@ export default function Dashboard({ navigation }) {
   };
 
   const toAnalytics = () => {
-    navigation.navigate("Analytics");
+    var QUERY = {
+      username: "mert",
+      token:
+        ""
+    };
+
+    var dates = [];
+    var clicks = [];
+
+    console.log("will fetch");
+    let axiosConfig = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+    axios.post("http://35.240.125.186/analytics", JSON.stringify(QUERY), axiosConfig)
+      .then((res) => {
+        console.log(res);
+        res.data.forEach((entry) => {
+          console.log("Clicks count: ", clicks.push(entry["numberOfClicks"]));
+          console.log("Dates count: ", dates.push(entry["dateOfCreate"]));
+        })
+      })
+      .then(() => {
+        console.log(clicks)
+        console.log(dates)
+        const line = ({
+          labels: dates,
+          datasets: [
+            {
+              data: clicks,
+              strokeWidth: 2, // optional
+            }
+          ]
+        })
+        navigation.navigate("Analytics", {"line": line});
+      })
+      .catch((e) => {
+        console.log(e);
+      })
+    
   }
 
   return (
@@ -131,7 +172,7 @@ const inStyles = StyleSheet.create({
     margin: 8,
   },
   miniButton: {
-    width: "10%",
+    width: "12.5%",
     backgroundColor: "#fff",
     borderTopEndRadius: 25,
     borderBottomEndRadius: 25,
@@ -144,9 +185,10 @@ const inStyles = StyleSheet.create({
   },
   URLContainer: {
     flexDirection: "row",
+    width: "80%"
   },
   URLInputView: {
-    width: "70%",
+    width: "87.5%",
     backgroundColor: "#fff",
     borderTopLeftRadius: 25,
     borderBottomStartRadius: 25,
@@ -157,5 +199,6 @@ const inStyles = StyleSheet.create({
     marginBottom: 20,
     justifyContent: "center",
     padding: 20,
+
   },
 });
