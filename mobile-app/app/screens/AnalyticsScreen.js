@@ -22,54 +22,11 @@ import {
 
 import { styles } from "../shared/Styles";
 
-export default function AnalyticsScreen({ route, navigation }) {
-  const [analyticsData, setAnalyticsData] = useState({});
-  const [creationDates, setCreationDates] = useState([]);
-  const [numberOfClicks, setNumberOfClicks] = useState([]);
-  // const name = navigation.getParam("name");
-
-  var QUERY = {
-    username: "",
-    token:
-      "",
-  };
-
-  console.log("will fetch");
-  let jsonData;
-  fetch(IPAddress, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(QUERY),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-        jsonData = data;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-
-  var dates = [];
-  var clicks = [];
-  jsonData.forEach((entry) => {
-    dates.push(entry["dateOfCreate"]);
-    clicks.push(parseInt(entry["numberOfClicks"]));
-  });
-
-  const line = {
-    labels: dates,
-    datasets: [
-      {
-        data: clicks,
-        strokeWidth: 2, // optional
-      },
-    ],
-  };
-
+export default function AnalyticsScreen({ navigation }) {
   return (
     <View style={styles.internalBackground}>
       <LineChart
-        data={line}
+        data={navigation.getParam("line")}
         width={Dimensions.get("window").width} // from react-native
         height={220}
         yAxisLabel={"$"}
@@ -90,7 +47,7 @@ export default function AnalyticsScreen({ route, navigation }) {
       />
       <BarChart
         // style={graphStyle}
-        data={line}
+        data={navigation.getParam("line")}
         width={Dimensions.get("window").width}
         height={220}
         yAxisLabel={"$"}
@@ -111,3 +68,4 @@ export default function AnalyticsScreen({ route, navigation }) {
     </View>
   );
 }
+
