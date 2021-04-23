@@ -10,32 +10,19 @@ import {
 import { Icon } from "react-native-elements";
 import Clipboard from "expo-clipboard";
 import { styles } from "../shared/Styles";
+import { urls } from "../shared/Urls";
 import axios from "react-native-axios";
-
-const AUTH_URL = "";
-
-// sendRequest = () => {
-//   console.log("Pressed");
-//   fetch(AUTH_URL, {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify( QUERY)
-//   })
-//  .then(() => {
-//     this.setState({
-//        pressed: !(this.state.pressed),
-//        data: "Added",
-//     })
-//  })
-//  .catch((error) => {
-//     console.error(error);
-//  });
-// }
+import Toast from "react-native-toast-message";
+import { useUserContext } from "../shared/UserContext";
 
 export default function Dashboard({ navigation }) {
   const [customURL, setcustomURL] = useState("");
   const [isSelected, setSelection] = useState(false);
   const [originalURL, setOriginalURL] = useState("");
+
+  const {
+    accessToken
+  } = useUserContext();
 
   useEffect(() => {
     Toast.show({
@@ -48,7 +35,7 @@ export default function Dashboard({ navigation }) {
   const toPostGen = () => {
 
     var QUERY = {
-      "token": "",
+      "token": accessToken,
       "originalURL": originalURL,
       "expirationDate": "12-04-2022"
     };
@@ -56,10 +43,9 @@ export default function Dashboard({ navigation }) {
       if(customURL.length === 8) {
         QUERY.customURL = customURL;
       }
-      
     }
 
-    fetch("http://34.78.211.85/shorten", {
+    fetch(urls.SHORTEN_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(QUERY),
@@ -80,12 +66,10 @@ export default function Dashboard({ navigation }) {
     const text = await Clipboard.getStringAsync();
     setOriginalURL(text);
   };
-
+  
   const toAnalytics = () => {
     var QUERY = {
-      username: "mert",
-      token:
-        ""
+      token: accessToken
     };
 
     var dates = [];
@@ -97,7 +81,7 @@ export default function Dashboard({ navigation }) {
         'Content-Type': 'application/json'
       }
     }
-    axios.post("http://35.240.125.186/analytics", JSON.stringify(QUERY), axiosConfig)
+    axios.post(urls.ANALYTICS_URL, JSON.stringify(QUERY), axiosConfig)
       .then((res) => {
         console.log(res);
         res.data.forEach((entry) => {
@@ -122,7 +106,6 @@ export default function Dashboard({ navigation }) {
       .catch((e) => {
         console.log(e);
       })
-    
   }
 
   return (

@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { styles } from "../shared/Styles";
+import { urls } from "../shared/Urls";
 import { useUserContext } from "../shared/UserContext";
 import Toast from "react-native-toast-message";
 
@@ -33,7 +34,7 @@ export default function LoginScreen({ navigation }) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(userInformation)
     }
-    fetch("http://35.187.92.19/login", requestOptions)
+    fetch(urls.LOGIN_URL, requestOptions)
     .then(response => response.json())
     .then(data => {
         console.log(data);

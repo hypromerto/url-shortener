@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import Toast from "react-native-toast-message";
 import { styles } from '../shared/Styles'
+import { urls } from "../shared/Urls";
+
 
 export default function RegisterScreen({ navigation }) {
 
@@ -35,7 +37,7 @@ export default function RegisterScreen({ navigation }) {
       body: JSON.stringify(userInformation)
     }
 
-    fetch("http://35.187.92.19/register", requestOptions)
+    fetch(urls.REGISTER_URL, requestOptions)
       .then(response => response.json())
       .then(data => {
         console.log(data);
