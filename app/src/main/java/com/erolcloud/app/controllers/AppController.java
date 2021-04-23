@@ -2,6 +2,8 @@ package com.erolcloud.app.controllers;
 
 import java.util.Collection;
 import java.util.Map;
+import java.net.URISyntaxException;
+import java.net.URI;
 
 import com.erolcloud.app.outpost.MongoGate;
 import com.erolcloud.app.outpost.AuthGate;
@@ -86,6 +88,25 @@ public class AppController{
         */
 
         return new ResponseEntity<>(new URLResult(keyToUse, originalURL, expirationDate), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{key}")
+	public ResponseEntity<Object> redirect(@PathVariable String key) throws URISyntaxException {
+
+        MongoDatabase db = MongoGate.getMongoDB();
+
+        MongoCollection<Document> collection = db.getCollection("url");
+
+        Document result = collection.find(Filters.eq("key", key)).first();
+
+        if (result == null || String.valueOf(result.get("active")).equals("0"))
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        
+        String originalURL = String.valueOf(result.get("url"));
+
+        return ResponseEntity.status(HttpStatus.SEE_OTHER)
+        .location(URI.create("http://" + originalURL))
+        .build();
     }
 
     public ValidationResult validateUser(String token, String apiKey){ //will also use api_key

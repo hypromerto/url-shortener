@@ -30,7 +30,7 @@ public class Envoy{
                 if(respString.isEmpty())
                     return null;
 
-                    return gson.fromJson(respString, HashMap.class);
+                return gson.fromJson(respString, HashMap.class);
             } 
             
         } catch (Exception e){
@@ -50,7 +50,7 @@ public class Envoy{
 
             try (Response resp = cli.newCall(req).execute()){
                 String respString = resp.body().string();
-                
+
                 if(respString.isEmpty())
                     return null;
 
