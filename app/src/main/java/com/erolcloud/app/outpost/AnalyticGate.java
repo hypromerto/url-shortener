@@ -3,7 +3,7 @@ package com.erolcloud.app.outpost;
 import java.util.HashMap;
 
 public class AnalyticGate {
-    // private static String ANALYTIC_SERVER = "http://35.240.125.16";
+
     private static String ANALYTIC_SERVER = System.getenv("ANALYTIC_SERVER");
 
     public static String addAnalytic(String creator, String link){
