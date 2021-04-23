@@ -1,15 +1,21 @@
 import React from "react";
-import { StyleSheet, Text, View, Share, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Share,
+  TouchableOpacity,
+  Linking,
+} from "react-native";
 import { styles } from "../shared/Styles";
+import { urls } from "../shared/Urls";
 
-export default function PostGenScreen({navigation}) {
-  
-  var key = navigation.getParam("data")
-  console.log("props: " + key);
+export default function PostGenScreen({ navigation }) {
+  var key = navigation.getParam("data");
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: "bamy.as/" + key,
+        message: urls.OUR_URL + "/" + key,
       });
     } catch (error) {
       alert(error.message);
@@ -18,7 +24,24 @@ export default function PostGenScreen({navigation}) {
   return (
     <View style={styles.internalBackground}>
       <Text>Generated Successfully</Text>
-      <Text>KEY: {"bamy.as/" + key}</Text>
+      <Text
+        style={{ color: "blue" }}
+        onPress={() => {
+          Linking.canOpenURL(urls.OUR_URL + "/" + key).then((supported) => {
+            if (supported) {
+              return Linking.openURL(urls.OUR_URL + "/" + key).catch(
+                () => null
+              );
+            }
+            else{
+              console.log("Not supported")
+            }
+          });
+        }}
+      >
+        {urls.OUR_URL + "/" + key}
+      </Text>
+
       <TouchableOpacity onPress={onShare} style={styles.button}>
         <Text style={styles.text}>Share</Text>
       </TouchableOpacity>
