@@ -31,7 +31,7 @@ public class AnalyticGate {
 
         json.put("key", key);
 
-        HashMap<String, Object> resp = Envoy.post(ANALYTIC_SERVER + "/", json);
+        HashMap<String, Object> resp = Envoy.post(ANALYTIC_SERVER + "/update-analytics", json);
 
         if (resp == null){
             return null;
