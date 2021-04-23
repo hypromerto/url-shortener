@@ -15,12 +15,27 @@ import { styles } from '../shared/Styles'
 export default function RegisterScreen({ navigation }) {
 
   const toDashboard = () => {
-    /**
-     * Send Login Request.then(r => {
-     *  setUsername(r.username)
-     *  setAccessToken(r.access_token)
-     * }) 
-     * */
+    const userInformation = {
+      "username": username,
+      "password": password
+    };
+    console.log(userInformation);
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(userInformation)
+    }
+    fetch('http://35.187.92.19/register', requestOptions)
+    .then(response => {
+      console.log(response)
+      //setAccessToken(response.data.authItem)
+      //navigation.navigate("Dashboard");
+    })
+    .catch(error => {
+      console.error("There was an error" + error)
+    })
+   
     navigation.navigate("Login");
   };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   Text,
   View,
@@ -13,18 +13,35 @@ import { useUserContext } from "../shared/UserContext";
 
 export default function LoginScreen({ navigation }) {
   const {
-    setUsername,
     setAccessToken
   } = useUserContext();
 
+  const [username, onChangeUsername] = useState("");
+  const [password, onChangePassword] = useState("");
+
   const toDashboard = () => {
-    /**
-     * Send Login Request.then(r => {
-     *  setUsername(r.username)
-     *  setAccessToken(r.access_token)
-     * }) 
-     * */
-    navigation.navigate("Dashboard");
+
+    const userInformation = {
+      "username": username,
+      "password": password
+    };
+    console.log(userInformation);
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(userInformation)
+    }
+    fetch('http://localhost:8080/login', requestOptions)
+    .then(response => {
+      console.log(response)
+      //setAccessToken(response.data.authItem)
+      //navigation.navigate("Dashboard");
+    })
+    .catch(error => {
+      console.error("There was an error" + error)
+    })
+   
   };
   
   return (
@@ -43,8 +60,9 @@ export default function LoginScreen({ navigation }) {
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
-          placeholder="Email"
+          placeholder="Username"
           placeholderTextColor="#003f5c"
+          onChangeText={onChangeUsername}
         />
       </View>
       <View style={styles.inputView}>
@@ -52,6 +70,7 @@ export default function LoginScreen({ navigation }) {
           style={styles.inputText}
           placeholder="Password"
           placeholderTextColor="#003f5c"
+          onChangeText={onChangePassword}
         />
       </View>
       <TouchableOpacity onPress={toDashboard} style={styles.button}>
