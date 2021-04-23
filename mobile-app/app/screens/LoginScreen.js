@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { styles } from "../shared/Styles";
 import { useUserContext } from "../shared/UserContext";
+import Toast from "react-native-toast-message";
 
 export default function LoginScreen({ navigation }) {
   const {
@@ -40,9 +41,13 @@ export default function LoginScreen({ navigation }) {
         navigation.navigate("Dashboard", {message: "Login Successful"})
     })
     .catch(err => {
-        return Promise.reject(err);
+      Toast.show({
+        type: "error",
+        text1: "Login failed",
+        autoHide: true
+      })
     })
-  };
+};
   
   return (
     <ImageBackground

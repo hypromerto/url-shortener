@@ -47,7 +47,11 @@ export default function RegisterScreen({ navigation }) {
         navigation.navigate("Login", { message: "Register Successful" })
       })
       .catch(err => {
-        return Promise.reject(err);
+        Toast.show({
+          type: "error",
+          text1: "Register Failed",
+          autoHide: true
+        })
       })
   };
 
