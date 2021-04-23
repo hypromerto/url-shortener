@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
 
 @RestController
 public class UpdateAnalyticsController {
-    @PutMapping("/update-analytics")
+    @PostMapping("/update-analytics")
     public ResponseEntity<AddAnalyticsResult> analytics(@RequestBody Map<String, String> body) {
 
         String key = body.get("key");

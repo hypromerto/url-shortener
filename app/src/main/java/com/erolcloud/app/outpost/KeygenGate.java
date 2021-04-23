@@ -4,7 +4,7 @@ import java.security.Key;
 import java.util.HashMap;
 
 public class KeygenGate {
-    private static String KEYGEN_SERVER = "http://104.155.61.29";//System.getenv("KEYGEN_SERVER");
+    private static String KEYGEN_SERVER = System.getenv("KEYGEN_SERVER");
 
     public static String getKey(){
         HashMap<String, Object> resp = Envoy.get(KEYGEN_SERVER + "/generate");
