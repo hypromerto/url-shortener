@@ -7,7 +7,7 @@ import com.erolcloud.analytics.models.ValidationResult;
 public class AuthGate {
     private static String AUTH_SERVER = "http://35.187.92.19";
 
-    public static ValidationResult validate(String key, String value){
+    public static ValidationResult validate(String key, String value) {
 
         HashMap<String, Object> json = new HashMap<>();
 
@@ -15,10 +15,9 @@ public class AuthGate {
 
         HashMap<String, Object> resp = Envoy.post(AUTH_SERVER + "/validate", json);
 
-        if (resp == null){
+        if (resp == null) {
             return null;
         }
-
         String username = (String) resp.get("username");
         double double_quota = (double) resp.get("quota");
 

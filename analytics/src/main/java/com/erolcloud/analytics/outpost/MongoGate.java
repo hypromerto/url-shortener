@@ -7,13 +7,12 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoCollection;
 
-import com.mongodb.client.model.Indexes;
 import org.bson.Document;
 
 public class MongoGate {
 
     private static MongoDatabase db;
-    private static String connectionString = "TODO";
+    private static String connectionString = "hypromerto:erolcloud@cluster0.epjxx.mongodb.net/erol-cloud?retryWrites=true&w=majority";
 
     public static MongoDatabase getMongoDB(){
         if (db == null)
@@ -36,7 +35,6 @@ public class MongoGate {
 
         db = client.getDatabase("erol-cloud");
 
-        MongoCollection<Document> collection = db.getCollection("analytics");
     }
     
 }

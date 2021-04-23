@@ -19,18 +19,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
+@RestController
 public class AdminAnalyticsController {
     @PostMapping("/admin")
     public ResponseEntity<List<Analytics>> analytics(@RequestBody Map<String, String> body) {
 
         MongoDatabase db = MongoGate.getMongoDB();
 
-        String username = body.get("username");
         String adminKey = body.get("admin_key");
 
-        ValidationResult result = AuthGate.validate("admin_key", adminKey);
+        ValidationResult validationResult = AuthGate.validate("admin_key", adminKey);
 
-        if( ! (result.getUsername().equals("admin") && result.getQuota() != -1)){
+        if (!(validationResult.getUsername().equals("admin") && validationResult.getQuota() != -1)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
@@ -44,17 +44,17 @@ public class AdminAnalyticsController {
         int numberOfClicks;
         Document curr;
 
-        List<Analytics> result = new ArrayList<Analytics>();
+        List<Analytics> analyticsResult = new ArrayList<Analytics>();
 
         while (it.hasNext()) {
             curr = it.next();
             link = curr.getString("link");
             dateOfCreate = curr.getString("dateOfCreate");
             numberOfClicks = Integer.parseInt(curr.getString("numberOfClicks"));
-            result.add(new Analytics(link, dateOfCreate, numberOfClicks));
+            analyticsResult.add(new Analytics(link, dateOfCreate, numberOfClicks));
         }
 
-        return new ResponseEntity<List<Analytics>>(result, HttpStatus.CREATED);
+        return new ResponseEntity<List<Analytics>>(analyticsResult, HttpStatus.OK);
     }
 
 }

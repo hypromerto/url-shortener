@@ -20,36 +20,35 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
+@RestController
 public class UserAnalyticsController {
     @PostMapping("/analytics")
     public ResponseEntity<List<Analytics>> analytics(@RequestBody Map<String, String> body) {
 
         MongoDatabase db = MongoGate.getMongoDB();
 
-        String userID = body.get("userID");
+        String username = body.get("username");
         String token = body.get("token");
 
         ValidationResult validation = AuthGate.validate("token", token);
 
-        if( ! (validation.getUsername().equals("admin") && validation.getQuota() != -1)){
+        if (!(validation.getUsername().equals(username))) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         MongoCollection<Document> collection = db.getCollection("analytics");
 
-        FindIterable<Document> iterDoc = collection.find(Filters.eq("userID", userID));
-
-        if (iterDoc == null) 
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        FindIterable<Document> iterDoc = collection.find(Filters.eq("username", username));
 
         Iterator<Document> it = iterDoc.iterator();
+
+        List<Analytics> result = new ArrayList<Analytics>();
 
         String link;
         String dateOfCreate;
         int numberOfClicks;
         Document curr;
 
-        List<Analytics> result = new ArrayList<Analytics>();
 
         while (it.hasNext()) {
             curr = it.next();
@@ -59,6 +58,6 @@ public class UserAnalyticsController {
             result.add(new Analytics(link, dateOfCreate, numberOfClicks));
         }
 
-        return new ResponseEntity<List<Analytics>>(result, HttpStatus.CREATED);
+        return new ResponseEntity<List<Analytics>>(result, HttpStatus.OK);
     }
 }
