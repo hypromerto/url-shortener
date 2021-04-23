@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   TextInput,
@@ -36,6 +36,14 @@ export default function Dashboard({ navigation }) {
   const [customURL, setcustomURL] = useState("");
   const [isSelected, setSelection] = useState(false);
   const [originalURL, setOriginalURL] = useState("");
+
+  useEffect(() => {
+    Toast.show({
+      type: "success",
+      text1: navigation.getParam("message"),
+      autoHide: true
+    })
+  }, [])
 
   const toPostGen = () => {
 
