@@ -84,8 +84,12 @@ public class AppController{
         
         //Add a record to analytics (also maybe account type for analytics)
 
+        final String finalCreator = creator;
+        final String finalURL = originalURL;
+        final String finalKey = keyToUse;
+
         CompletableFuture.runAsync(() -> {
-            AnalyticGate.addAnalytic(creator, originalURL, keyToUse);
+            AnalyticGate.addAnalytic(finalCreator, finalURL, finalKey);
         });
         
         /*
@@ -109,8 +113,9 @@ public class AppController{
         
         String originalURL = String.valueOf(result.get("url"));
 
+        final String finalKey = key;
         CompletableFuture.runAsync(() -> {
-            AnalyticGate.updateClickCount(String.valueOf(result.get("key")));
+            AnalyticGate.updateClickCount(finalKey);
         });
 
         return ResponseEntity.status(HttpStatus.SEE_OTHER)
