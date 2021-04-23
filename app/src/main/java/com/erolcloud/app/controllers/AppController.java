@@ -24,6 +24,7 @@ import org.springframework.http.HttpStatus;
 
 import org.bson.Document;
 
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 public class AppController{
@@ -82,7 +83,10 @@ public class AppController{
 
         
         //Add a record to analytics (also maybe account type for analytics)
-        AnalyticGate.addAnalytic(creator, originalURL);
+
+        CompletableFuture.runAsync(() -> {
+            AnalyticGate.addAnalytic(creator, originalURL);
+        });
         
         /*
         Add to cache?

@@ -7,11 +7,7 @@ import com.erolcloud.analytics.models.ValidationResult;
 public class AuthGate {
     private static String AUTH_SERVER = System.getenv("AUTH_SERVER");
 
-    public static ValidationResult validate(String key, String value) {
-
-        HashMap<String, Object> json = new HashMap<>();
-
-        json.put(key, value);
+    public static ValidationResult validate(HashMap<String, Object> json) {
 
         HashMap<String, Object> resp = Envoy.post(AUTH_SERVER + "/validate", json);
 

@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class AnalyticGate {
 
-    private static String ANALYTIC_SERVER = System.getenv("ANALYTIC_SERVER");
+    private static String ANALYTIC_SERVER = "http://35.240.125.186";//System.getenv("ANALYTIC_SERVER");
 
     public static String addAnalytic(String creator, String link){
 
@@ -13,7 +13,7 @@ public class AnalyticGate {
         json.put("username", creator);
         json.put("link", link);
 
-        HashMap<String, Object> resp = Envoy.post(ANALYTIC_SERVER + "/add-analytic", json);
+        HashMap<String, Object> resp = Envoy.post(ANALYTIC_SERVER + "/add-analytics", json);
 
         if (resp == null){
             return null;
