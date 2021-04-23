@@ -9,6 +9,9 @@ import { Platform } from "react-native";
 import InternalNavigation from "./InternalNavigation";
 
 const routes = {
+  Dashboard: {
+    screen: InternalNavigation,
+  },
   Welcome: {
     screen: WelcomeScreen,
   },
@@ -18,9 +21,6 @@ const routes = {
   Register: {
     screen: RegisterScreen,
   },
-  Dashboard: {
-    screen: InternalNavigation,
-  }
 };
 
 const options = {
