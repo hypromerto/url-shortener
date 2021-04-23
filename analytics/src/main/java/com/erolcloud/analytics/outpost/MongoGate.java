@@ -12,7 +12,7 @@ import org.bson.Document;
 public class MongoGate {
 
     private static MongoDatabase db;
-    private static String connectionString = "hypromerto:erolcloud@cluster0.epjxx.mongodb.net/erol-cloud?retryWrites=true&w=majority";
+    private static String connectionString = System.getenv("CONNECTION_STRING");
 
     public static MongoDatabase getMongoDB(){
         if (db == null)
