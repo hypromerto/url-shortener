@@ -131,7 +131,7 @@ const inStyles = StyleSheet.create({
     margin: 8,
   },
   miniButton: {
-    width: "10%",
+    width: "12.5%",
     backgroundColor: "#fff",
     borderTopEndRadius: 25,
     borderBottomEndRadius: 25,
@@ -144,9 +144,10 @@ const inStyles = StyleSheet.create({
   },
   URLContainer: {
     flexDirection: "row",
+    width: "80%"
   },
   URLInputView: {
-    width: "70%",
+    width: "87.5%",
     backgroundColor: "#fff",
     borderTopLeftRadius: 25,
     borderBottomStartRadius: 25,
@@ -157,5 +158,6 @@ const inStyles = StyleSheet.create({
     marginBottom: 20,
     justifyContent: "center",
     padding: 20,
+
   },
 });
