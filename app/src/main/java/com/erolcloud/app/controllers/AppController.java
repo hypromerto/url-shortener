@@ -110,7 +110,7 @@ public class AppController{
         String originalURL = String.valueOf(result.get("url"));
 
         CompletableFuture.runAsync(() -> {
-            AnalyticGate.updateClickCount(creator, originalURL, keyToUse);
+            AnalyticGate.updateClickCount(String.valueOf(result.get("key")));
         });
 
         return ResponseEntity.status(HttpStatus.SEE_OTHER)
