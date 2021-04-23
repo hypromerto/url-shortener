@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {
   Text,
   View,
@@ -32,16 +32,16 @@ export default function LoginScreen({ navigation }) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(userInformation)
     }
-    fetch('http://localhost:8080/login', requestOptions)
-    .then(response => {
-      console.log(response)
-      //setAccessToken(response.data.authItem)
-      //navigation.navigate("Dashboard");
+    fetch("http://35.187.92.19/login", requestOptions)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        setAccessToken(data.authItem)
+        navigation.navigate("Dashboard", {message: "Login Successful"})
     })
-    .catch(error => {
-      console.error("There was an error" + error)
+    .catch(err => {
+        return Promise.reject(err);
     })
-   
   };
   
   return (

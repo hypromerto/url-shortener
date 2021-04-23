@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   TextInput,
@@ -10,6 +10,7 @@ import {
 import { Icon } from "react-native-elements";
 import Clipboard from "expo-clipboard";
 import { styles } from "../shared/Styles";
+import Toast from "react-native-toast-message";
 
 const AUTH_URL = "http://34.78.211.85/shorten/";
 
@@ -56,6 +57,14 @@ export default function Dashboard({ navigation }) {
       });
     navigation.navigate("PostGen");
   };
+
+  useEffect(() => {
+    Toast.show({
+      type: "success",
+      text1: navigation.getParam("message"),
+      autoHide: true
+    })
+  }, [])
 
   const paste = async () => {
     //Clipboard.setString("hello world");
