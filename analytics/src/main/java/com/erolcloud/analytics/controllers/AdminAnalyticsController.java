@@ -5,8 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.erolcloud.analytics.outpost.AuthGate;
 import com.erolcloud.analytics.outpost.MongoGate;
 import com.erolcloud.analytics.models.Analytics;
+import com.erolcloud.analytics.models.ValidationResult;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -23,15 +25,14 @@ public class AdminAnalyticsController {
 
         MongoDatabase db = MongoGate.getMongoDB();
 
-        
-        // ValidationResult validationResult = validateUser(token, apiKey); //will also
-        // use apiKey
+        String username = body.get("username");
+        String adminKey = body.get("admin_key");
 
-        // if (validationResult == null)
-        // return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        ValidationResult result = AuthGate.validate("admin_key", adminKey);
 
-        // if (validationResult.getQuota() <= 0)
-        // return new ResponseEntity<>(HttpStatus.TOO_MANY_REQUESTS);
+        if( ! (result.getUsername().equals("admin") && result.getQuota() != -1)){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
 
         MongoCollection<Document> collection = db.getCollection("analytics");
 
