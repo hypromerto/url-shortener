@@ -37,28 +37,37 @@ export default function Dashboard({ navigation }) {
   const [originalURL, setOriginalURL] = useState("");
 
   const toPostGen = () => {
-    let QUERY = {
-      originalURL: originalURL,
-      key: "bu ne anlamadım",
-      creator: "gelecek",
-      expirationDate: "tbd", //burada gün sayısı mı vereyim direkt tarih mi
+
+    var QUERY = {
+      "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtZXJ0In0.qmlXAtkOzSS52Zbkhd1NuA3hNrL1cMbLgac7_YT8OzU",
+      "originalURL": originalURL,
+      "expirationDate": "12-04-2022"
     };
-    fetch(AUTH_URL, {
+    if (isSelected) {
+      if(customURL.length === 8) {
+        QUERY.customURL = customURL;
+      }
+      
+    }
+
+    fetch("http://34.78.211.85/shorten", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(QUERY),
     })
-      .then((response) => {
-        console.log(response);
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        console.log(data["key"]);
+        navigation.navigate("PostGen", { data: data["key"] });
       })
       .catch((error) => {
         console.error(error);
       });
-    navigation.navigate("PostGen");
   };
 
   const paste = async () => {
-    //Clipboard.setString("hello world");
+    // Clipboard.setString("hello world");
     const text = await Clipboard.getStringAsync();
     setOriginalURL(text);
   };

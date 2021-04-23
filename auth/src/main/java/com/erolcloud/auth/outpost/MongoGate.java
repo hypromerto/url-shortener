@@ -1,4 +1,4 @@
-package com.erolcloud.app.outpost;
+package com.erolcloud.auth.outpost;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.client.MongoClient;
@@ -37,9 +37,11 @@ public class MongoGate{
 
         db = client.getDatabase("erol-cloud");
 
-        MongoCollection<Document> collection = db.getCollection("url");
-        collection.createIndex(Indexes.hashed("key"));
-        collection.createIndex(Indexes.ascending("creator"));
+        MongoCollection<Document> collection = db.getCollection("users");
+        collection.createIndex(Indexes.ascending("username"));
+        collection.createIndex(Indexes.hashed("password"));
+        // role: admin-standart-business
+        collection.createIndex(Indexes.ascending("role"));
     }
     
 }

@@ -1,6 +1,4 @@
-package com.erolcloud.auth.controllers;
-
-import com.erolcloud.auth.models.TestObject;
+package com.erolcloud.analytics.controllers;
 
 import java.util.Map;
 
@@ -11,16 +9,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class AuthController {
+public class TestAnalytics {
 
     @PostMapping("/test")
-    public ResponseEntity<TestObject> test(@RequestBody Map<String, Object> body){
+    public ResponseEntity<String> test(@RequestBody Map<String, Object> body){
 
         String message = (String) body.get("message");
         String id = (String) body.get("id");
 
-        System.out.println("At auth service: " + message + " " + id);
-
-        return new ResponseEntity<>(new TestObject("burak", "amk atası idsi"), HttpStatus.OK);
+        return new ResponseEntity<>(message + id + " analyticsdeyim", HttpStatus.OK);
     }
 }

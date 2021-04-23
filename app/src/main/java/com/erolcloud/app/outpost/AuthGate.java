@@ -2,27 +2,28 @@ package com.erolcloud.app.outpost;
 
 import java.util.HashMap;
 
-import com.erolcloud.app.models.TestObject;
+import com.erolcloud.app.models.ValidationResult;
 
 public class AuthGate {
-    private static String AUTH_SERVER = System.getenv("AUTH_SERVER");
+    private static String AUTH_SERVER = "http://35.187.92.19";
 
-    public static TestObject test(String message, String id){
+    public static ValidationResult validate(String key, String value){
 
         HashMap<String, Object> json = new HashMap<>();
 
-        System.out.println("AUTH_SERVER: " + AUTH_SERVER);
-        json.put("message", message);
-        json.put("id", id);
+        json.put(key, value);
 
-        HashMap<String, Object> resp = Envoy.post(AUTH_SERVER + "/test", json);
+        HashMap<String, Object> resp = Envoy.post(AUTH_SERVER + "/validate", json);
 
-        String msg = (String) resp.get("message");
-        String str_id = (String) resp.get("id");
+        if (resp == null){
+            return null;
+        }
 
-        System.out.println("Received response as " + msg + " " + str_id);
+        String username = (String) resp.get("username");
+        double double_quota = (double) resp.get("quota");
 
-        return new TestObject(msg, str_id);
+        int quota = (int) double_quota;
+
+        return new ValidationResult(username, quota);
     }
-
 }

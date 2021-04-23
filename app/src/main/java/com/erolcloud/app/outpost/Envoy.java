@@ -39,4 +39,28 @@ public class Envoy{
 
         return null;
     }
+
+    public static HashMap<String, Object> get(String url){
+        try{            
+            Gson gson = new Gson();
+            
+            OkHttpClient cli = new OkHttpClient();
+
+            Request req = new Request.Builder().url(url).build();
+
+            try (Response resp = cli.newCall(req).execute()){
+                String respString = resp.body().string();
+                
+                if(respString.isEmpty())
+                    return null;
+
+                return gson.fromJson(respString, HashMap.class);
+            } 
+            
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
