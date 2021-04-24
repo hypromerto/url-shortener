@@ -29,28 +29,24 @@ public class RegisterController {
 
         String username = body.get("username");
         String password = body.get("password");
-        String accountType = body.get("account_type");
+        String clientSecret = body.get("client_secret");
         String hashedPassword = DigestUtils.sha256Hex(password);
+
+        String accountType = "b2b";
 
         MongoCollection<Document> collection = db.getCollection("users");
 
         if (collection.find(Filters.eq("username", username)).first() != null) {
             return new ResponseEntity<>(new RegisterResult("Username already in use."), HttpStatus.CONFLICT);
         }
-
-        if (!"b2c".equals(accountType) && !"b2b".equals(accountType)) {
-            return new ResponseEntity<>(new RegisterResult("Invalid account type."), HttpStatus.BAD_REQUEST);
-        }
+        
+        if (clientSecret != null && clientSecret.equals(System.getenv("CLIENT_SECRET")))
+            accountType = "b2c";
 
         Document newUser = new Document().append("username", username)
                 .append("hashed_password", hashedPassword).append("account_type", accountType)
                 .append("quota_status", new Quota(0, null).getDocument());
         collection.insertOne(newUser);
-        /** 
-        CompletableFuture.runAsync(() -> {
-            AnalyticsGate.recordRegister(accountType);
-        });
-        */
 
         return new ResponseEntity<>(new RegisterResult(), HttpStatus.CREATED);
     }
