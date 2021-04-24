@@ -1,15 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Dimensions } from "react-native";
+import { StatusBar } from "react-native";
 import { Button } from "react-native";
-import {
-  Text,
-  View,
-  ImageBackground,
-  StyleSheet,
-  TextInput,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { Text, View, ScrollView } from "react-native";
 
 import {
   LineChart,
@@ -23,29 +16,36 @@ import {
 import { styles } from "../shared/Styles";
 
 export default function AnalyticsScreen({ navigation }) {
+  const [dimension, setDimension] = useState(false);
+  Dimensions.addEventListener("change", () => {
+    setDimension(!dimension);
+  });
   return (
     <View style={styles.internalBackground}>
-      <LineChart
-        data={navigation.getParam("line")}
-        width={Dimensions.get("window").width} // from react-native
-        height={220}
-        yAxisLabel={"$"}
-        chartConfig={{
-          backgroundColor: "#4b84ac",
-          backgroundGradientFrom: "#4b84ac",
-          backgroundGradientTo: "#6794b5",
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          style: {
+      <ScrollView horizontal={true}>
+        <LineChart
+          data={navigation.getParam("line")}
+          width={Dimensions.get("window").width} // from react-native
+          height={Dimensions.get("window").height - StatusBar.currentHeight -100}
+          verticalLabelRotation={31}
+          chartConfig={{
+            backgroundColor: "#4b84ac",
+            backgroundGradientFrom: "#4b84ac",
+            backgroundGradientTo: "#6794b5",
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16,
+            },
+          }}
+          propsForLabels={{ height: 3000, width: 100 }}
+          bezier
+          style={{
+            marginVertical: 8,
             borderRadius: 16,
-          },
-        }}
-        bezier
-        style={{
-          marginVertical: 8,
-          borderRadius: 16,
-        }}
-      />
-      <BarChart
+          }}
+        />
+      </ScrollView>
+      {/* <BarChart
         // style={graphStyle}
         data={navigation.getParam("line")}
         width={Dimensions.get("window").width}
@@ -64,8 +64,7 @@ export default function AnalyticsScreen({ navigation }) {
           marginVertical: 8,
           borderRadius: 16,
         }}
-      />
+      /> */}
     </View>
   );
 }
-
