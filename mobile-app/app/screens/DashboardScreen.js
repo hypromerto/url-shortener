@@ -5,7 +5,7 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  CheckBox,
+  Switch
 } from "react-native";
 import { Icon } from "react-native-elements";
 import Clipboard from "expo-clipboard";
@@ -33,8 +33,6 @@ export default function Dashboard({ navigation }) {
       : {
           token: accessToken,
         };
-  console.log(URL);
-  console.log(QUERY);
 
   useEffect(() => {
     if (navigation.getParam("accountType") === "admin") {
@@ -50,33 +48,32 @@ export default function Dashboard({ navigation }) {
   const toPostGen = () => {
     var QUERY = {
       token: accessToken,
-      originalURL: originalURL,
-      expirationDate: "12-04-2022",
+      originalURL: originalURL
     };
-    if (isSelected) {
-      if (customURL.length === 8) {
-        QUERY.customURL = customURL;
-      }
-    }
-
-    fetch(urls.SHORTEN_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(QUERY),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        console.log(data["key"]);
-        navigation.navigate("PostGen", { data: data["key"] });
+    if (isSelected && customURL.length !== 8) {
+      Toast.show({
+        type: "error",
+        text1: "Custom URL length must be 8 characters",
+        autoHide: true
       })
-      .catch((error) => {
-        console.error(error);
-      });
+    } 
+    else {
+      fetch(urls.SHORTEN_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(QUERY),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          navigation.navigate("PostGen", { data: data["key"] });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
 
   const paste = async () => {
-    // Clipboard.setString("hello world");
     const text = await Clipboard.getStringAsync();
     setOriginalURL(text);
   };
@@ -85,7 +82,6 @@ export default function Dashboard({ navigation }) {
     var dates = [];
     var clicks = [];
 
-    console.log("will fetch");
     let axiosConfig = {
       headers: {
         "Content-Type": "application/json",
@@ -94,15 +90,12 @@ export default function Dashboard({ navigation }) {
     axios
       .post(URL, JSON.stringify(QUERY), axiosConfig)
       .then((res) => {
-        console.log(res);
         res.data.forEach((entry) => {
-          console.log("Clicks count: ", clicks.push(entry["numberOfClicks"]));
-          console.log("Dates count: ", dates.push(entry["dateOfCreate"]));
+          clicks.push(entry["numberOfClicks"]);
+          dates.push(entry["dateOfCreate"]);
         });
       })
       .then(() => {
-        console.log(clicks);
-        console.log(dates);
         const line = {
           labels: dates,
           datasets: [
@@ -115,7 +108,7 @@ export default function Dashboard({ navigation }) {
         navigation.navigate("Analytics", { line: line });
       })
       .catch((e) => {
-        console.log(e);
+        console.error(e);
       });
   };
 
@@ -145,7 +138,7 @@ export default function Dashboard({ navigation }) {
         />
       </View>
       <View style={inStyles.checkboxContainer}>
-        <CheckBox
+        <Switch
           value={isSelected}
           onValueChange={setSelection}
           style={inStyles.checkbox}
