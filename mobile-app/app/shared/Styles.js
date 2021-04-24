@@ -1,6 +1,12 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+  analyticsTitle: {
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "black",
+  },
   appTitle: {
     fontSize: 35,
     fontWeight: "bold",

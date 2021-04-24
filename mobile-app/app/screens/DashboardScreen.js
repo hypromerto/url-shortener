@@ -1,71 +1,119 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   TextInput,
   View,
   TouchableOpacity,
   StyleSheet,
-  CheckBox,
+  Switch
 } from "react-native";
 import { Icon } from "react-native-elements";
 import Clipboard from "expo-clipboard";
 import { styles } from "../shared/Styles";
-
-const AUTH_URL = "http://34.78.211.85/shorten/";
-
-// sendRequest = () => {
-//   console.log("Pressed");
-//   fetch(AUTH_URL, {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify( QUERY)
-//   })
-//  .then(() => {
-//     this.setState({
-//        pressed: !(this.state.pressed),
-//        data: "Added",
-//     })
-//  })
-//  .catch((error) => {
-//     console.error(error);
-//  });
-// }
+import { urls } from "../shared/Urls";
+import axios from "react-native-axios";
+import Toast from "react-native-toast-message";
+import { useUserContext } from "../shared/UserContext";
 
 export default function Dashboard({ navigation }) {
   const [customURL, setcustomURL] = useState("");
   const [isSelected, setSelection] = useState(false);
   const [originalURL, setOriginalURL] = useState("");
 
+  const { accessToken } = useUserContext();
+  const URL =
+    navigation.getParam("accountType") === "admin"
+      ? urls.ADMIN_ANALYTICS_URL
+      : urls.ANALYTICS_URL;
+  const QUERY =
+    navigation.getParam("accountType") === "admin"
+      ? {
+          admin_key: accessToken,
+        }
+      : {
+          token: accessToken,
+        };
+
+  useEffect(() => {
+    if (navigation.getParam("accountType") === "admin") {
+      toAnalytics();
+    }
+    Toast.show({
+      type: "success",
+      text1: navigation.getParam("message"),
+      autoHide: true,
+    });
+  }, []);
+
   const toPostGen = () => {
-    let QUERY = {
-      originalURL: originalURL,
-      key: "bu ne anlamadım",
-      creator: "gelecek",
-      expirationDate: "tbd", //burada gün sayısı mı vereyim direkt tarih mi
+    var QUERY = {
+      token: accessToken,
+      originalURL: originalURL
     };
-    fetch(AUTH_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(QUERY),
-    })
-      .then((response) => {
-        console.log(response);
+    if (isSelected && customURL.length !== 8) {
+      Toast.show({
+        type: "error",
+        text1: "Custom URL length must be 8 characters",
+        autoHide: true
       })
-      .catch((error) => {
-        console.error(error);
-      });
-    navigation.navigate("PostGen");
+    } 
+    else {
+      fetch(urls.SHORTEN_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(QUERY),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          navigation.navigate("PostGen", { data: data["key"] });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
   };
 
   const paste = async () => {
-    //Clipboard.setString("hello world");
     const text = await Clipboard.getStringAsync();
     setOriginalURL(text);
   };
 
   const toAnalytics = () => {
-    navigation.navigate("Analytics");
-  }
+    var dates = [];
+    var clicks = [];
+    var keys = [];
+
+    let axiosConfig = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    axios
+      .post(URL, JSON.stringify(QUERY), axiosConfig)
+      .then((res) => {
+        res.data.forEach((entry) => {
+          console.log(entry);
+          clicks.push(entry["numberOfClicks"]);
+          dates.push(entry["dateOfCreate"]);
+          keys.push(entry["link"]);
+        });
+      })
+      .then(() => {
+        const line = {
+          labels: keys,
+          datasets: [
+            {
+              data: clicks,
+              strokeWidth: 2, // optional
+            },
+          ],
+        };
+        navigation.navigate("Analytics", { line: line });
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
 
   return (
     <View style={styles.internalBackground}>
@@ -93,7 +141,7 @@ export default function Dashboard({ navigation }) {
         />
       </View>
       <View style={inStyles.checkboxContainer}>
-        <CheckBox
+        <Switch
           value={isSelected}
           onValueChange={setSelection}
           style={inStyles.checkbox}
@@ -122,7 +170,7 @@ const inStyles = StyleSheet.create({
     margin: 8,
   },
   miniButton: {
-    width: "10%",
+    width: "12.5%",
     backgroundColor: "#fff",
     borderTopEndRadius: 25,
     borderBottomEndRadius: 25,
@@ -135,9 +183,10 @@ const inStyles = StyleSheet.create({
   },
   URLContainer: {
     flexDirection: "row",
+    width: "80%",
   },
   URLInputView: {
-    width: "70%",
+    width: "87.5%",
     backgroundColor: "#fff",
     borderTopLeftRadius: 25,
     borderBottomStartRadius: 25,
