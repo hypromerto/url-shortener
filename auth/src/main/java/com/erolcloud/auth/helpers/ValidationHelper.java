@@ -17,8 +17,7 @@ public class ValidationHelper {
     }
     
     public static String getApiKey(String user){
-        String token = JWT.create().withSubject(user).sign(Algorithm.HMAC256(SECRET));
-        return token.substring(HEADER.length()).replaceAll("\\.", "");
+        return JWT.create().withSubject(user).sign(Algorithm.HMAC256(SECRET));
     }
 
     public static String getAdminKey(){

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
+
 
 import com.erolcloud.analytics.outpost.AuthGate;
 import com.erolcloud.analytics.outpost.MongoGate;
@@ -27,14 +29,20 @@ public class UserAnalyticsController {
 
         MongoDatabase db = MongoGate.getMongoDB();
 
-        String username = body.get("username");
         String token = body.get("token");
 
-        ValidationResult validation = AuthGate.validate("token", token);
+        HashMap<String, Object> json = new HashMap<>();
 
-        if (!(validation.getUsername().equals(username))) {
+        json.put("token", token);
+        json.put("analytic", "true");
+
+        ValidationResult validation = AuthGate.validate(json);
+
+        if (validation == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
+
+        String username = validation.getUsername();
 
         MongoCollection<Document> collection = db.getCollection("analytics");
 
@@ -48,7 +56,6 @@ public class UserAnalyticsController {
         String dateOfCreate;
         int numberOfClicks;
         Document curr;
-
 
         while (it.hasNext()) {
             curr = it.next();

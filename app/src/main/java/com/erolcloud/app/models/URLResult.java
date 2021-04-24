@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class URLResult {
     private String key;
     private String url;
-    private String expirationDate;
 }

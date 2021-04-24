@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 import com.erolcloud.analytics.outpost.AuthGate;
 import com.erolcloud.analytics.outpost.MongoGate;
@@ -28,9 +29,14 @@ public class AdminAnalyticsController {
 
         String adminKey = body.get("admin_key");
 
-        ValidationResult validationResult = AuthGate.validate("admin_key", adminKey);
+        HashMap<String, Object> json = new HashMap<>();
 
-        if (!(validationResult.getUsername().equals("admin") && validationResult.getQuota() != -1)) {
+        json.put("admin_key", adminKey);
+        json.put("analytic", "true");
+
+        ValidationResult validationResult = AuthGate.validate(json);
+
+        if (validationResult == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 

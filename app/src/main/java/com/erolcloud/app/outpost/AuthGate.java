@@ -5,7 +5,7 @@ import java.util.HashMap;
 import com.erolcloud.app.models.ValidationResult;
 
 public class AuthGate {
-    private static String AUTH_SERVER = "http://35.187.92.19";
+    private static String AUTH_SERVER = System.getenv("AUTH_SERVER");
 
     public static ValidationResult validate(String key, String value){
 
