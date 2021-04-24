@@ -81,7 +81,7 @@ export default function Dashboard({ navigation }) {
   const toAnalytics = () => {
     var dates = [];
     var clicks = [];
-    var urls = [];
+    var keys = [];
 
     let axiosConfig = {
       headers: {
@@ -92,14 +92,15 @@ export default function Dashboard({ navigation }) {
       .post(URL, JSON.stringify(QUERY), axiosConfig)
       .then((res) => {
         res.data.forEach((entry) => {
+          console.log(entry);
           clicks.push(entry["numberOfClicks"]);
           dates.push(entry["dateOfCreate"]);
-          urls.push(entry["url"])
+          keys.push(entry["link"]);
         });
       })
       .then(() => {
         const line = {
-          labels: dates,
+          labels: keys,
           datasets: [
             {
               data: clicks,

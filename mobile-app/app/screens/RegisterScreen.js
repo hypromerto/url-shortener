@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Toast from "react-native-toast-message";
+import { environment } from "../shared/environment";
 import { styles } from '../shared/Styles'
 import { urls } from "../shared/Urls";
 
@@ -18,16 +19,12 @@ export default function RegisterScreen({ navigation }) {
 
   const [username, onChangeUsername] = useState("");
   const [password, onChangePassword] = useState("");
-  const [accountType, setAccountType] = useState("");
-
-  const setB2B = () => {setAccountType("b2b")}
-  const setB2C = () => {setAccountType("b2c")}
 
   const toDashboard = () => {
     const userInformation = {
       "username": username,
       "password": password,
-      "account_type": accountType
+      "client_secret": environment.CLIENT_SECRET
     };
     console.log(userInformation);
 
@@ -73,13 +70,6 @@ export default function RegisterScreen({ navigation }) {
       <View style={styles.inputView}>
         <TextInput
           style={styles.inputText}
-          placeholder="Name"
-          placeholderTextColor="#003f5c"
-        />
-      </View>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
           placeholder="Username"
           placeholderTextColor="#003f5c"
           onChangeText={onChangeUsername}
@@ -93,14 +83,6 @@ export default function RegisterScreen({ navigation }) {
           onChangeText={onChangePassword}
         />
       </View>
-      <TouchableOpacity onPress={setB2B} style={styles.button}>
-        <Text style={styles.text}>B2B</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={setB2C} style={styles.button}>
-        <Text style={styles.text}>B2C</Text>
-      </TouchableOpacity>
-
       <TouchableOpacity onPress={toDashboard} style={styles.button}>
         <Text style={styles.text}>Register</Text>
       </TouchableOpacity>
