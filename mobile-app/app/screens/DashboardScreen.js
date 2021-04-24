@@ -78,9 +78,10 @@ export default function Dashboard({ navigation }) {
     setOriginalURL(text);
   };
 
-  const toAnalytics = (admin) => {
+  const toAnalytics = () => {
     var dates = [];
     var clicks = [];
+    var urls = [];
 
     let axiosConfig = {
       headers: {
@@ -93,6 +94,7 @@ export default function Dashboard({ navigation }) {
         res.data.forEach((entry) => {
           clicks.push(entry["numberOfClicks"]);
           dates.push(entry["dateOfCreate"]);
+          urls.push(entry["url"])
         });
       })
       .then(() => {
