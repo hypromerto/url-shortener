@@ -20,27 +20,41 @@ export default function Dashboard({ navigation }) {
   const [isSelected, setSelection] = useState(false);
   const [originalURL, setOriginalURL] = useState("");
 
-  const {
-    accessToken
-  } = useUserContext();
+  const { accessToken } = useUserContext();
+  const URL =
+    navigation.getParam("accountType") === "admin"
+      ? urls.ADMIN_ANALYTICS_URL
+      : urls.ANALYTICS_URL;
+  const QUERY =
+    navigation.getParam("accountType") === "admin"
+      ? {
+          admin_key: accessToken,
+        }
+      : {
+          token: accessToken,
+        };
+  console.log(URL);
+  console.log(QUERY);
 
   useEffect(() => {
+    if (navigation.getParam("accountType") === "admin") {
+      toAnalytics();
+    }
     Toast.show({
       type: "success",
       text1: navigation.getParam("message"),
-      autoHide: true
-    })
-  }, [])
+      autoHide: true,
+    });
+  }, []);
 
   const toPostGen = () => {
-
     var QUERY = {
-      "token": accessToken,
-      "originalURL": originalURL,
-      "expirationDate": "12-04-2022"
+      token: accessToken,
+      originalURL: originalURL,
+      expirationDate: "12-04-2022",
     };
     if (isSelected) {
-      if(customURL.length === 8) {
+      if (customURL.length === 8) {
         QUERY.customURL = customURL;
       }
     }
@@ -50,8 +64,8 @@ export default function Dashboard({ navigation }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(QUERY),
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         console.log(data);
         console.log(data["key"]);
         navigation.navigate("PostGen", { data: data["key"] });
@@ -66,47 +80,44 @@ export default function Dashboard({ navigation }) {
     const text = await Clipboard.getStringAsync();
     setOriginalURL(text);
   };
-  
-  const toAnalytics = () => {
-    var QUERY = {
-      token: accessToken
-    };
 
+  const toAnalytics = (admin) => {
     var dates = [];
     var clicks = [];
 
     console.log("will fetch");
     let axiosConfig = {
       headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-    axios.post(urls.ANALYTICS_URL, JSON.stringify(QUERY), axiosConfig)
+        "Content-Type": "application/json",
+      },
+    };
+    axios
+      .post(URL, JSON.stringify(QUERY), axiosConfig)
       .then((res) => {
         console.log(res);
         res.data.forEach((entry) => {
           console.log("Clicks count: ", clicks.push(entry["numberOfClicks"]));
           console.log("Dates count: ", dates.push(entry["dateOfCreate"]));
-        })
+        });
       })
       .then(() => {
-        console.log(clicks)
-        console.log(dates)
-        const line = ({
+        console.log(clicks);
+        console.log(dates);
+        const line = {
           labels: dates,
           datasets: [
             {
               data: clicks,
               strokeWidth: 2, // optional
-            }
-          ]
-        })
-        navigation.navigate("Analytics", {"line": line});
+            },
+          ],
+        };
+        navigation.navigate("Analytics", { line: line });
       })
       .catch((e) => {
         console.log(e);
-      })
-  }
+      });
+  };
 
   return (
     <View style={styles.internalBackground}>
@@ -176,7 +187,7 @@ const inStyles = StyleSheet.create({
   },
   URLContainer: {
     flexDirection: "row",
-    width: "80%"
+    width: "80%",
   },
   URLInputView: {
     width: "87.5%",
@@ -190,6 +201,5 @@ const inStyles = StyleSheet.create({
     marginBottom: 20,
     justifyContent: "center",
     padding: 20,
-
   },
 });

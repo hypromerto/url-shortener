@@ -15,7 +15,10 @@ const routes = {
     screen: PostGenScreen
   },
   Analytics: {
-    screen: AnalyticsScreen
+    screen: AnalyticsScreen,
+    navigationOptions: {
+      headerLeft: () => {null}
+    }
   }
 };
 

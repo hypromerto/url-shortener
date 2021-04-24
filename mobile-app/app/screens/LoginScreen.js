@@ -39,7 +39,7 @@ export default function LoginScreen({ navigation }) {
     .then(data => {
         console.log(data);
         setAccessToken(data.authItem)
-        navigation.navigate("Dashboard", {message: "Login Successful"})
+          navigation.navigate("Dashboard", {accountType: data.accountType, message: "Login Successful"})
     })
     .catch(err => {
       Toast.show({
@@ -73,6 +73,7 @@ export default function LoginScreen({ navigation }) {
       </View>
       <View style={styles.inputView}>
         <TextInput
+          secureTextEntry={true}
           style={styles.inputText}
           placeholder="Password"
           placeholderTextColor="#003f5c"

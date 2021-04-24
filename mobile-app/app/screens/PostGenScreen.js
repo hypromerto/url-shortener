@@ -15,7 +15,7 @@ export default function PostGenScreen({ navigation }) {
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: urls.OUR_URL + "/" + key,
+        message: "Here is a short link for you: "+ urls.OUR_URL + "/" + key,
       });
     } catch (error) {
       alert(error.message);
@@ -27,9 +27,9 @@ export default function PostGenScreen({ navigation }) {
       <Text
         style={{ color: "blue" }}
         onPress={() => {
-          Linking.canOpenURL(urls.OUR_URL + "/" + key).then((supported) => {
+          Linking.canOpenURL("http://" + urls.OUR_URL + "/" + key).then((supported) => {
             if (supported) {
-              return Linking.openURL(urls.OUR_URL + "/" + key).catch(
+              return Linking.openURL("http://" + urls.OUR_URL + "/" + key).catch(
                 () => null
               );
             }
