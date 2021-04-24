@@ -5,13 +5,14 @@ import java.util.Map;
 import java.net.URISyntaxException;
 import java.net.URI;
 
+
 import com.erolcloud.app.outpost.MongoGate;
 import com.erolcloud.app.outpost.AnalyticGate;
 import com.erolcloud.app.outpost.AuthGate;
-import com.erolcloud.app.outpost.KeygenGate;
-
 import com.erolcloud.app.models.URLResult;
 import com.erolcloud.app.models.ValidationResult;
+
+import org.apache.commons.lang3.RandomStringUtils;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -32,14 +33,14 @@ public class AppController{
 
     @PostMapping("/shorten")
     public ResponseEntity<URLResult> shorten(@RequestBody Map<String, String> body) {
-        
+        final int keyLength = 8;
+
         MongoDatabase db = MongoGate.getMongoDB();
 
         String token = body.get("token");
         String apiKey = body.get("apiKey");
 		String originalURL = body.get("originalURL");
 		String customURL = body.get("customURL");
-        String expirationDate = body.get("expirationDate");
 
         ValidationResult validationResult = validateUser(token, apiKey); //will also use apiKey
 
@@ -65,10 +66,10 @@ public class AppController{
             keyToUse = customURL;
         }
         else{
-            keyToUse = KeygenGate.getKey(); //Need to decide if we allow duplicate keys, very low prob.
+            keyToUse = RandomStringUtils.randomAlphanumeric(keyLength);
 
             while (collection.find(Filters.eq("key", keyToUse)).first() != null)
-                keyToUse = KeygenGate.getKey();
+                keyToUse = RandomStringUtils.randomAlphanumeric(keyLength);
         }
         
         String creator = validationResult.getUsername();
@@ -76,9 +77,7 @@ public class AppController{
         Document newURL = new Document()
             .append("url", originalURL)
             .append("key", keyToUse)
-            .append("creator", creator)
-            .append("expireDate", expirationDate)
-            .append("active", 1);
+            .append("creator", creator);
         collection.insertOne(newURL);
 
         
@@ -96,7 +95,7 @@ public class AppController{
         Add to cache?
         */
 
-        return new ResponseEntity<>(new URLResult(keyToUse, originalURL, expirationDate), HttpStatus.CREATED);
+        return new ResponseEntity<>(new URLResult(keyToUse, originalURL), HttpStatus.CREATED);
     }
 
     @GetMapping("/{key}")
@@ -108,7 +107,7 @@ public class AppController{
 
         Document result = collection.find(Filters.eq("key", key)).first();
 
-        if (result == null || String.valueOf(result.get("active")).equals("0"))
+        if (result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         
         String originalURL = String.valueOf(result.get("url"));
