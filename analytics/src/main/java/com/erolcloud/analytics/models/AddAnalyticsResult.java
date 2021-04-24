@@ -1,5 +1,4 @@
-package com.erolcloud.app.models;
-
+package com.erolcloud.analytics.models;
 import lombok.AllArgsConstructor;  
 import lombok.Data;  
 import lombok.NoArgsConstructor;
@@ -7,7 +6,6 @@ import lombok.NoArgsConstructor;
 @Data  
 @AllArgsConstructor  
 @NoArgsConstructor
-public class URLResult {
-    private String key;
-    private String url;
+public class AddAnalyticsResult {
+    String result;
 }

@@ -1,4 +1,4 @@
-package com.erolcloud.app.outpost;
+package com.erolcloud.analytics.outpost;
 
 import java.util.HashMap;
 
@@ -10,8 +10,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class Envoy{
-
+public class Envoy {
     public static HashMap<String, Object> post(String url, HashMap<String, Object> json){
         try{            
             Gson gson = new Gson();
@@ -30,7 +29,7 @@ public class Envoy{
                 if(respString.isEmpty())
                     return null;
 
-                return gson.fromJson(respString, HashMap.class);
+                    return gson.fromJson(respString, HashMap.class);
             } 
             
         } catch (Exception e){
@@ -50,7 +49,7 @@ public class Envoy{
 
             try (Response resp = cli.newCall(req).execute()){
                 String respString = resp.body().string();
-
+                
                 if(respString.isEmpty())
                     return null;
 
