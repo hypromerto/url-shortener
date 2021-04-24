@@ -118,8 +118,12 @@ public class AppController{
             AnalyticGate.updateClickCount(finalKey);
         });
 
+        String http = "";
+
+        if ( !(originalURL.contains("http://") || originalURL.contains("https://")) )
+            http = "http://";
         return ResponseEntity.status(HttpStatus.SEE_OTHER)
-        .location(URI.create("http://" + originalURL))
+        .location(URI.create(http + originalURL))
         .build();
     }
 

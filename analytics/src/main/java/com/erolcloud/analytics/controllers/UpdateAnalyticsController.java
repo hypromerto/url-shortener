@@ -31,9 +31,11 @@ public class UpdateAnalyticsController {
         if (result == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         
-        int numberOfClicks = Integer.parseInt(String.valueOf(result.get("numberOfClicks")));
+        int numberOfClicks = Integer.parseInt(result.getString("numberOfClicks"));
 
-        Bson updateScheme = Updates.set("numberOfClicks", numberOfClicks + 1);
+        String noClick = String.valueOf(numberOfClicks + 1);
+        
+        Bson updateScheme = Updates.set("numberOfClicks", noClick);
 
         collection.updateOne(Filters.eq("key", key), updateScheme);
         return new ResponseEntity<AddAnalyticsResult>(new AddAnalyticsResult("Success"), HttpStatus.CREATED);
