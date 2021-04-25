@@ -2,3 +2,5 @@
 mobile-app/.idea/
 
 mobile-app/app/shared/environment.js
+
+*.pyc
