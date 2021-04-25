@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "erol-cloud-app",
-    "slug": "erol-cloud-app",
+    "name": "lidlone-app",
+    "slug": "lidlone-app",
     "version": "1.0.0",
     "icon": "./app/assets/icon.png",
     "splash": {

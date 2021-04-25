@@ -30,7 +30,7 @@ export default function WelcomeScreen({ navigation }) {
           style={styles.logo}
           source={require("../assets/app-logo.png")}
         />
-        <Text style={styles.appTitle}>Erol Cloud</Text>
+        <Text style={styles.appTitle}>lidl.one</Text>
       </View>
       <TouchableOpacity onPress={toLogin} style={styles.loginContainer}>
         <Text style={styles.welcomeButton}>Login</Text>
