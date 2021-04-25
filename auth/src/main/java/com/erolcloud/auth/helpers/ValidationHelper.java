@@ -10,7 +10,7 @@ public class ValidationHelper {
     private static final String ADMIN_KEY = System.getenv("ADMIN_KEY");
     private static final String SECRET = System.getenv("SECRET");
     private static final String HEADER = System.getenv("HEADER");
-    private static final int SIGN_LEN = 21;
+    private static final int SIGN_LEN = 43;
     
     public static String getToken(String user){
         return JWT.create().withSubject(user).sign(Algorithm.HMAC256(SECRET));
