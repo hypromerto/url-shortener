@@ -38,8 +38,17 @@ export default function LoginScreen({ navigation }) {
     .then(response => response.json())
     .then(data => {
         console.log(data);
-        setAccessToken(data.authItem)
+        if(data.authItem){
+          setAccessToken(data.authItem)
           navigation.navigate("Dashboard", {accountType: data.accountType, message: "Login Successful"})
+        }
+        else{
+          Toast.show({
+            type: "error",
+            text1: "Login failed",
+            autoHide: true
+          })
+        }
     })
     .catch(err => {
       Toast.show({
@@ -61,7 +70,7 @@ export default function LoginScreen({ navigation }) {
           style={styles.logo}
           source={require("../assets/app-logo.png")}
         />
-        <Text style={styles.appTitle}>Erol Cloud</Text>
+        <Text style={styles.appTitle}>lidl.one</Text>
       </View>
       <View style={styles.inputView}>
         <TextInput

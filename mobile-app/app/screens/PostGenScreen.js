@@ -43,7 +43,7 @@ export default function PostGenScreen({ navigation }) {
       </Text>
 
       <TouchableOpacity onPress={onShare} style={styles.button}>
-        <Text style={styles.text}>Share</Text>
+        <Text style={styles.text}>Share the lidl one</Text>
       </TouchableOpacity>
     </View>
   );

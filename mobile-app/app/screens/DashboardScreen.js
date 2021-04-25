@@ -46,10 +46,6 @@ export default function Dashboard({ navigation }) {
   }, []);
 
   const toPostGen = () => {
-    var QUERY = {
-      token: accessToken,
-      originalURL: originalURL
-    };
     if (isSelected && customURL.length !== 8) {
       Toast.show({
         type: "error",
@@ -58,14 +54,49 @@ export default function Dashboard({ navigation }) {
       })
     } 
     else {
+      var QUERY = {
+        token: accessToken,
+        originalURL: originalURL
+      };
+      if(isSelected){
+        QUERY["customURL"] = customURL
+      };
       fetch(urls.SHORTEN_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(QUERY),
       })
-        .then((response) => response.json())
-        .then((data) => {
-          navigation.navigate("PostGen", { data: data["key"] });
+        .then((response) => {
+          console.log(response.status)
+          if(response.status == 401){
+            Toast.show({
+              type: "error",
+              text1: "Authorization failed",
+              autoHide: true
+            })
+          }
+          else if(response.status == 406){
+            Toast.show({
+              type: "error",
+              text1: "Specified key is already assigned to a URL",
+              autoHide: true
+            })
+          }
+          else if(response.status == 429){
+            Toast.show({
+              type: "error",
+              text1: "Insufficient daily quota",
+              autoHide: true
+            })
+          }
+          else if(response.status == 201){
+            response.json().then( (data) => {
+              navigation.navigate("PostGen", { data: data["key"] });
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+          }
         })
         .catch((error) => {
           console.error(error);
