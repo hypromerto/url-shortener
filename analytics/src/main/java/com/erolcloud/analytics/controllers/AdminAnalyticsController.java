@@ -47,6 +47,7 @@ public class AdminAnalyticsController {
 
         String link;
         String dateOfCreate;
+        String key;
         int numberOfClicks;
         Document curr;
 
@@ -56,8 +57,9 @@ public class AdminAnalyticsController {
             curr = it.next();
             link = curr.getString("link");
             dateOfCreate = curr.getString("dateOfCreate");
+            key = curr.getString("key");
             numberOfClicks = Integer.parseInt(curr.getString("numberOfClicks"));
-            analyticsResult.add(new Analytics(link, dateOfCreate, numberOfClicks));
+            analyticsResult.add(new Analytics(link, dateOfCreate, key, numberOfClicks));
         }
 
         return new ResponseEntity<List<Analytics>>(analyticsResult, HttpStatus.OK);

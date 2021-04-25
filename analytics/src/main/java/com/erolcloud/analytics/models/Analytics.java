@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 public class Analytics {
     String link;
     String dateOfCreate;
+    String key;
     int numberOfClicks;
 }

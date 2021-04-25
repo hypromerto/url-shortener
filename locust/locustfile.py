@@ -2,7 +2,7 @@ from random import randrange;
 from locust import HttpUser, TaskSet, task, between
 
 AUTH_URL = 'http://35.187.92.19'
-REDIRECT_URL = 'http://34.78.211.85/babafati'
+REDIRECT_URL = 'http://34.78.211.85/ibolipaa'
 SHORTEN_URL = 'http://34.78.211.85/shorten'
 
 class QuickstartUser(HttpUser):
@@ -20,7 +20,7 @@ class QuickstartUser(HttpUser):
         payload = {
             'username': self.username,
             'password': self.password,
-            'account_type': 'b2c'
+            'client_secret': 'erolbulut'
         }
         self.client.post(AUTH_URL + "/register", json=payload)
     @task(30)
