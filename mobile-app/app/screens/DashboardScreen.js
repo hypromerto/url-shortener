@@ -126,7 +126,7 @@ export default function Dashboard({ navigation }) {
           console.log(entry);
           clicks.push(entry["numberOfClicks"]);
           dates.push(entry["dateOfCreate"]);
-          keys.push(entry["link"]);
+          keys.push(entry["link"] + " - " + entry["key"]);
         });
       })
       .then(() => {
@@ -146,6 +146,28 @@ export default function Dashboard({ navigation }) {
       });
   };
 
+  const toKeys = () => {
+    var links = [];
+
+    let axiosConfig = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    axios
+      .post(URL, JSON.stringify(QUERY), axiosConfig)
+      .then((res) => {
+        res.data.forEach((entry) => {
+          links.push({link: entry["link"], key: entry["key"]});
+        });
+      })
+      .then(() => {
+        navigation.navigate("Keys", { data: links});
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
   return (
     <View style={styles.internalBackground}>
       <View style={inStyles.URLContainer}>
@@ -184,6 +206,9 @@ export default function Dashboard({ navigation }) {
       </TouchableOpacity>
       <TouchableOpacity onPress={toAnalytics} style={styles.button}>
         <Text style={styles.text}>View Analytics</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={toKeys} style={styles.button}>
+        <Text style={styles.text}>View Keys</Text>
       </TouchableOpacity>
     </View>
   );

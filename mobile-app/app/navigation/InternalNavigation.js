@@ -3,6 +3,7 @@ import { createAppContainer } from "react-navigation";
 import DashboardScreen from "../screens/DashboardScreen";
 import PostGenScreen from "../screens/PostGenScreen";
 import AnalyticsScreen from "../screens/AnalyticsScreen";
+import KeysScreen from "../screens/KeysScreen";
 
 const routes = {
   Dashboard: {
@@ -13,6 +14,9 @@ const routes = {
   },
   PostGen: {
     screen: PostGenScreen
+  },
+  Keys: {
+    screen: KeysScreen
   },
   Analytics: {
     screen: AnalyticsScreen,

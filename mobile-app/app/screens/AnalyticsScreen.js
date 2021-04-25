@@ -20,7 +20,7 @@ export default function AnalyticsScreen({ navigation }) {
   Dimensions.addEventListener("change", () => {
     setDimension(!dimension);
   });
-  const chartWidth = navigation.getParam("line").labels.length < 10 ? 1 : (navigation.getParam("line").labels.length / 10);
+  const chartWidth = navigation.getParam("line").labels.length < 3 ? 1.5 : (navigation.getParam("line").labels.length / 3);
   return (
     <View style={styles.internalBackground}>
       {navigation.getParam("line").labels.length != 0 ? (
@@ -34,7 +34,7 @@ export default function AnalyticsScreen({ navigation }) {
             data={navigation.getParam("line")}
             width={chartWidth * Dimensions.get("window").width} // from react-native
             height={Dimensions.get("window").height - 150}
-            verticalLabelRotation={25}
+            verticalLabelRotation={18}
             fromZero={true}
             chartConfig={{
               backgroundColor: "#4b84ac",
