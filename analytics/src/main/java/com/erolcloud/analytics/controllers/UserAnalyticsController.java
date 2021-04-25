@@ -54,6 +54,7 @@ public class UserAnalyticsController {
 
         String link;
         String dateOfCreate;
+        String key;
         int numberOfClicks;
         Document curr;
 
@@ -61,8 +62,9 @@ public class UserAnalyticsController {
             curr = it.next();
             link = curr.getString("link");
             dateOfCreate = curr.getString("dateOfCreate");
+            key = curr.getString("key");
             numberOfClicks = Integer.parseInt(curr.getString("numberOfClicks"));
-            result.add(new Analytics(link, dateOfCreate, numberOfClicks));
+            result.add(new Analytics(link, dateOfCreate, key, numberOfClicks));
         }
 
         return new ResponseEntity<List<Analytics>>(result, HttpStatus.OK);
