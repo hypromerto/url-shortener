@@ -32,9 +32,9 @@ export default function AnalyticsScreen({ navigation }) {
         <ScrollView horizontal={true}>
           <LineChart
             data={navigation.getParam("line")}
-            width={chartWidth * Dimensions.get("window").width} // from react-native
+            width={chartWidth * Dimensions.get("window").width + 100} // from react-native
             height={Dimensions.get("window").height - 150}
-            verticalLabelRotation={18}
+            verticalLabelRotation={10}
             fromZero={true}
             chartConfig={{
               backgroundColor: "#4b84ac",
