@@ -7,3 +7,6 @@
   * Dockerized microservices that are deployed on Google Cloud Computing Kubernetes Engine instances.
 * #### Frontend:
   * React Native mobile application
+
+Extensively load tested the app with [Locust](https://locust.io/) to observe whether we were able to uphold our SLA promises.
+
